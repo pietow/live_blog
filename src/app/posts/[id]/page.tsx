@@ -1,10 +1,10 @@
 // url /posts/1
 import { notFound } from "next/navigation"
-import { posts } from "@/data/posts"
+import { getPost } from "@/data/queries"
 
 export default async function Post({ params }: { params: Promise<{id: string}>}) {
     let id = (await params).id
-    const post = posts.find((post) => post.id === Number(id))
+    const post = await getPost(Number(id))
     if (!post) {
         notFound()
     }

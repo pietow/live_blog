@@ -131,3 +131,80 @@ input {
     color: #0a0a0a;
   }
 }
+
+div[role='alert'],
+span[role='alert'] {
+  color: #b91c1c;
+}
+div[role='alert'].success,
+span[role='alert'].success {
+  color: #1d4ed8;
+}
+div[role='alert'] h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+div[role='alert'] p {
+  margin-bottom: 0.5rem;
+}
+
+main .actions {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+main .alert {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+button {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #6b7280;
+  background-color: #fff;
+  color: #4b5563;
+  cursor: pointer;
+}
+button:enabled:hover {
+  background-color: #eaecee;
+}
+button:disabled {
+  cursor: not-allowed;
+  color: #788494;
+}
+
+.skeleton {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.skeleton-item-title {
+  border-radius: 12px;
+  animation: skeleton-loading 1s linear infinite alternate;
+  height: 1.2rem;
+  width: 16rem;
+}
+.skeleton-item-desc {
+  border-radius: 12px;
+  animation: skeleton-loading 1s linear infinite alternate;
+  height: 1.1rem;
+  width: 100%;
+}
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(215, 15%, 85%);
+  }
+  100% {
+    background-color: hsl(215, 15%, 95%);
+  }
+}
