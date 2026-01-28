@@ -9,7 +9,7 @@ type Post = {
 }
 
 export async function getAllPosts() {
-    await delay()
+
     const client = createClient({
         url: process.env.DB_URL ?? '',
     })
@@ -22,7 +22,7 @@ export async function getAllPosts() {
 }
 
 export async function getFilteredPosts(criteria: string) {
-    await delay()
+
     const client = createClient({
         url: process.env.DB_URL ?? '',
     })
@@ -36,7 +36,7 @@ export async function getFilteredPosts(criteria: string) {
 }
 
 export async function getPost(id: number) {
-    await delay()
+
     const client = createClient({
         url: process.env.DB_URL ?? '',
     })
@@ -50,8 +50,4 @@ export async function getPost(id: number) {
         return undefined;
     }
     return postSchema.parse(data.rows[0])
-}
-
-async function delay() {
-    await new Promise(resolve => setTimeout(resolve, 5000))
 }
