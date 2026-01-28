@@ -1,6 +1,7 @@
-import Link from 'next/link'
-import { getAllPosts, getFilteredPosts } from '@/data/queries'
-import { GoToFirstPostButton } from '@/components/GoToFirstPostButton'
+import { Suspense } from 'react'
+import { Loading } from '@/components/Loading'
+import { PostList } from '@/components/PostList'
+
 
 export default async function Posts({
     searchParams,
@@ -10,27 +11,14 @@ export default async function Posts({
     }>
 }) {
     const criteria = (await searchParams).criteria
-    const resolvedPosts =
-        typeof criteria === 'string'
-            ? await getFilteredPosts(criteria)
-            : await getAllPosts()
     const resolvedHeading =
         typeof criteria === 'string' ? `Posts for ${criteria}` : 'Posts'
     return (
         <main>
             <h2>{resolvedHeading}</h2>
-            <GoToFirstPostButton />
-            <ul>
-                {resolvedPosts.map((post) => (
-                    <li key={post.id}>
-                        <Link href={`/posts/${post.id}`}>
-                            <span>{post.title}</span>
-                        </Link>
-
-                        <p>{post.description}</p>
-                    </li>
-                ))}
-            </ul>
+            <Suspense fallback={<Loading />}>
+                <PostList criteria={criteria}/>
+            </Suspense>
         </main>
     )
 }
