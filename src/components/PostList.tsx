@@ -1,15 +1,32 @@
-import Link from 'next/link'
-import { getAllPosts, getFilteredPosts } from '@/data/queries'
+"use client"
 
-export async function PostList({
+import Link from 'next/link'
+import { useQuery } from '@tanstack/react-query'
+import { getAllPosts, getFilteredPosts } from '@/data/queries'
+import { Loading } from './Loading'
+import { ErrorAlert } from './ErrorAlert'
+
+export function PostList({
     criteria,
 }: {
     criteria: string | string[] | undefined
 }) {
-    const resolvedPosts =
-        typeof criteria === 'string'
-            ? await getFilteredPosts(criteria)
-            : await getAllPosts()
+    const { data: resolvedPosts, isPending, error } = useQuery({
+        queryKey: ["posts", criteria],
+        queryFn: () => {
+            if (typeof criteria === "string") {
+                return getFilteredPosts(criteria)
+            }
+            return getAllPosts()
+        }
+    })
+    if (isPending) {
+        return <Loading />
+    }
+
+    if (error) {
+        return <ErrorAlert error={error} />
+    }
 
     return (
         <ul>

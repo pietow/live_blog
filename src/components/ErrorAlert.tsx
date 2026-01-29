@@ -2,16 +2,14 @@
 
 export function ErrorAlert({
     error,
-    resetErrorBoundary,
 }: {
-    error: Error
-    resetErrorBoundary: () => void
+    error: unknown
+
 }) {
     return (
         <div role="alert">
             <h3> Somthing went wrong</h3>
-            <p>{error.message}</p>
-            <button onClick={resetErrorBoundary}>Retry</button>
+            <p>{error instanceof Error ? error.message : 'unkown Error'}</p>
         </div>
     )
 }

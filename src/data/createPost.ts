@@ -1,22 +1,29 @@
-"use server"
+'use server'
 
-import { createClient } from "@libsql/client"
-import { revalidatePath } from "next/cache"
+import { createClient, type Client, type ResultSet } from '@libsql/client'
+import { revalidatePath } from 'next/cache'
 
-export async function createPost(
-    title: string,
-    description: string,
-) {
-    const client = createClient({
-        url: process.env.DB_URL ?? "",
-    })
+export async function createPost(title: string, description: string) {
+    let client: Client | undefined
+    let result: ResultSet | undefined
 
-    await client.execute({
-        sql: "INSERT INTO posts(title, description) VALUES (?,?)",
-        args: [title, description],
-    })
+    try {
+        client = createClient({
+            url: process.env.DB_URL ?? '',
+        })
 
-    client.close()
-    revalidatePath("/posts")
-
+        result = await client.execute({
+            sql: 'INSERT INTO posts(title, description) VALUES (?,?)',
+            args: [title, description],
+        })
+    } catch {
+        return { ok: false }
+    } finally {
+        client?.close()
+    }
+    revalidatePath('/posts')
+    return {
+        ok: true,
+        id: result ? result.lastInsertRowid : undefined,
+    }
 }
