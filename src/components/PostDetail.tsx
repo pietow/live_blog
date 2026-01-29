@@ -4,13 +4,20 @@ import { getPost } from '@/data/queries'
 import { useQuery } from '@tanstack/react-query'
 import { Loading } from './Loading'
 import { ErrorAlert } from './ErrorAlert'
+import { resolve } from 'path'
 
 
 export function PostDetail({ id }: { id: number }) {
     const { data: post, isPending, error } = useQuery({
         queryKey: ["post", id],
-        queryFn: () => {
-            return getPost(id)
+        queryFn: async() => {
+            const response = await fetch(`/api/posts/${id}`)
+            if (!response.ok) {
+                throw new Error(
+                    response.status === 404 ? "Blog post not found" : "Problem fetching data"
+                )
+            }
+            return await response.json(); 
         }
     })
 

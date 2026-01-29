@@ -1,5 +1,3 @@
-"use server"
-
 import { createClient } from '@libsql/client'
 import { postsSchema, postSchema } from './schema'
 import { date } from 'zod'

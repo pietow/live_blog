@@ -13,12 +13,17 @@ export function PostList({
 }) {
     const { data: resolvedPosts, isPending, error } = useQuery({
         queryKey: ["posts", criteria],
-        queryFn: () => {
-            if (typeof criteria === "string") {
-                return getFilteredPosts(criteria)
+        queryFn: async () => {
+            const path = 
+                typeof criteria === "string"
+                    ? `/api/posts?criteria=${criteria}`
+                    : "/api/posts"
+            const response = await fetch(path)
+            if (!response.ok) {
+                throw new Error("Problem fetching data")
             }
-            return getAllPosts()
-        }
+            return await response.json()
+            }
     })
     if (isPending) {
         return <Loading />
