@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getAllPosts, getFilteredPosts } from '@/data/queries'
 import { Loading } from './Loading'
 import { ErrorAlert } from './ErrorAlert'
+import { postsSchema } from '@/data/schema'
 
 export function PostList({
     criteria,
@@ -22,7 +23,7 @@ export function PostList({
             if (!response.ok) {
                 throw new Error("Problem fetching data")
             }
-            return await response.json()
+            return postsSchema.parse(await response.json())
             }
     })
     if (isPending) {
