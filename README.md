@@ -6,7 +6,7 @@ Es wird clientseitige Datenabfrage mit TanStack Query demonstriert.
 
 ## Technologie-Stack
 
-- **Framework:** Next.js 15 (App Router)
+- **Framework:** Next.js 16
 - **Sprache:** TypeScript
 - **Styling:** Tailwind CSS
 - **Linting & Formatierung:** ESLint, Prettier
